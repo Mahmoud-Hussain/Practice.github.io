@@ -53,7 +53,7 @@ export default function Skills() {
   ];
 
   return (
-    <section id="skills" className="py-24 relative z-10">
+    <section id="skills" className="py-24 relative z-10 scroll-mt-24">
       <div className="max-w-7xl mx-auto px-6">
 
         {/* Heading */}

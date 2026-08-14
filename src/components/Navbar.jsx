@@ -1,121 +1,190 @@
 import React, { useState, useEffect } from 'react';
-import { Sun, Moon, Menu, X, Send, Sparkles } from 'lucide-react';
+import { Sun, Moon, Menu, X, Terminal, ArrowUpRight } from 'lucide-react';
 
 export default function Navbar({ theme, toggleTheme }) {
   const [scrolled, setScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [activeSection, setActiveSection] = useState('home');
 
+  const navLinks = [
+    { name: 'Home', href: '#home', id: 'home' },
+    { name: 'About', href: '#about', id: 'about' },
+    { name: 'Skills', href: '#skills', id: 'skills' },
+    { name: 'Projects', href: '#projects', id: 'projects' },
+    { name: 'Research', href: '#research', id: 'research' },
+    { name: 'Blog', href: '#blog', id: 'blog' },
+    { name: 'Experience', href: '#experience', id: 'experience' },
+    { name: 'Contact', href: '#contact', id: 'contact' },
+  ];
+
+  // Track scroll position
   useEffect(() => {
     const handleScroll = () => {
-      setScrolled(window.scrollY > 40);
+      setScrolled(window.scrollY > 30);
     };
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  const navLinks = [
-    { name: 'Home', href: '#home' },
-    { name: 'About', href: '#about' },
-    { name: 'Skills', href: '#skills' },
-    { name: 'Projects', href: '#projects' },
-    { name: 'Experience', href: '#experience' },
-    { name: 'Contact', href: '#contact' },
-  ];
+  // Track active section using IntersectionObserver
+  useEffect(() => {
+    const sectionIds = navLinks.map((link) => link.id);
+    const sections = sectionIds.map((id) => document.getElementById(id)).filter(Boolean);
+
+    if (sections.length === 0) return;
+
+    const observerOptions = {
+      root: null,
+      rootMargin: '-20% 0px -60% 0px',
+      threshold: 0,
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          setActiveSection(entry.target.id);
+        }
+      });
+    }, observerOptions);
+
+    sections.forEach((section) => observer.observe(section));
+
+    return () => {
+      sections.forEach((section) => observer.unobserve(section));
+    };
+  }, []);
+
+  const handleNavClick = (id) => {
+    setActiveSection(id);
+    setMobileMenuOpen(false);
+  };
 
   return (
     <nav
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        scrolled ? 'glass-nav py-3.5 shadow-xl' : 'bg-transparent py-6'
+        scrolled
+          ? 'glass-nav py-3 shadow-xl backdrop-blur-md border-b border-blue-900/30'
+          : 'bg-transparent py-5'
       }`}
     >
       <div className="max-w-7xl mx-auto px-6 flex items-center justify-between">
-        {/* Logo */}
+        
+        {/* Brand Identity Mark */}
         <a
           href="#home"
-          className="text-2xl font-black tracking-tight text-white flex items-center gap-1 group"
+          onClick={() => handleNavClick('home')}
+          className="text-lg font-bold tracking-tight text-white flex items-center gap-2 group select-none"
         >
-          <span className="bg-gradient-to-r from-sky-400 via-indigo-400 to-purple-400 bg-clip-text text-transparent group-hover:scale-105 transition-transform duration-300">
-            MH
+          <div className="p-1.5 rounded-lg bg-blue-600/20 border border-blue-500/30 text-blue-400 group-hover:border-blue-400/60 transition-colors">
+            <Terminal className="w-4 h-4" />
+          </div>
+          <span className="font-mono text-slate-100 group-hover:text-blue-400 transition-colors">
+            MAHMOUD<span className="text-blue-500">.ENG</span>
           </span>
-          <span className="w-2.5 h-2.5 rounded-full bg-sky-400 shadow-[0_0_12px_#38bdf8] animate-pulse"></span>
         </a>
 
         {/* Desktop Navigation Links */}
-        <ul className="hidden md:flex items-center gap-5 lg:gap-8 whitespace-nowrap">
-          {navLinks.map((link) => (
-            <li key={link.name}>
-              <a
-                href={link.href}
-                className="text-sm font-medium text-slate-300 hover:text-sky-400 transition-colors duration-200 relative group py-1"
-              >
-                {link.name}
-                <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-gradient-to-r from-sky-400 to-purple-400 group-hover:w-full transition-all duration-300"></span>
-              </a>
-            </li>
-          ))}
+        <ul className="hidden md:flex items-center gap-5 lg:gap-7 whitespace-nowrap">
+          {navLinks.map((link) => {
+            const isActive = activeSection === link.id;
+            return (
+              <li key={link.name}>
+                <a
+                  href={link.href}
+                  onClick={() => handleNavClick(link.id)}
+                  className={`text-xs font-medium uppercase tracking-wider transition-all duration-200 relative py-1 ${
+                    isActive ? 'text-blue-400 font-semibold' : 'text-slate-400 hover:text-slate-200'
+                  }`}
+                >
+                  {link.name}
+                  {isActive && (
+                    <span className="absolute -bottom-1 left-0 right-0 h-0.5 bg-gradient-to-r from-blue-500 to-cyan-400 rounded-full shadow-[0_0_8px_#3b82f6]"></span>
+                  )}
+                </a>
+              </li>
+            );
+          })}
         </ul>
 
-        {/* Right Action Controls */}
-        <div className="hidden md:flex items-center gap-4">
-          {/* Theme Toggle Button */}
+        {/* Action Controls */}
+        <div className="hidden md:flex items-center gap-3">
           <button
             onClick={toggleTheme}
             aria-label="Toggle Theme"
-            className="p-2.5 rounded-xl bg-slate-800/60 border border-slate-700/60 text-slate-300 hover:text-sky-400 hover:border-sky-400/40 transition-all duration-200"
+            className="p-2 rounded-lg bg-slate-900/60 border border-slate-800 text-slate-400 hover:text-blue-400 hover:border-blue-500/40 transition-all cursor-pointer"
           >
-            {theme === 'dark' ? <Sun className="w-5 h-5 text-amber-400" /> : <Moon className="w-5 h-5 text-indigo-400" />}
+            {theme === 'dark' ? (
+              <Sun className="w-4 h-4 text-amber-400" />
+            ) : (
+              <Moon className="w-4 h-4 text-indigo-400" />
+            )}
           </button>
 
-          {/* Let's Talk CTA Button */}
-          <a href="#contact" className="btn-neon text-sm">
-            <Sparkles className="w-4 h-4" />
-            Let's Talk
+          <a href="#contact" className="btn-electric text-xs py-2 px-4">
+            Connect <ArrowUpRight className="w-3.5 h-3.5" />
           </a>
         </div>
 
         {/* Mobile Hamburger Button */}
-        <div className="flex md:hidden items-center gap-3">
+        <div className="flex md:hidden items-center gap-2">
           <button
             onClick={toggleTheme}
-            className="p-2 rounded-lg bg-slate-800/60 text-slate-300"
+            aria-label="Toggle Theme"
+            className="p-2 rounded-lg bg-slate-900/80 text-slate-300 border border-slate-800"
           >
-            {theme === 'dark' ? <Sun className="w-5 h-5 text-amber-400" /> : <Moon className="w-5 h-5 text-indigo-400" />}
+            {theme === 'dark' ? (
+              <Sun className="w-4 h-4 text-amber-400" />
+            ) : (
+              <Moon className="w-4 h-4 text-indigo-400" />
+            )}
           </button>
 
           <button
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="p-2.5 text-slate-200 hover:text-sky-400"
+            aria-label="Toggle Mobile Menu"
+            className="p-2 rounded-lg bg-slate-900/80 text-slate-200 border border-slate-800"
           >
-            {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+            {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
           </button>
         </div>
       </div>
 
-      {/* Mobile Drawer Navigation */}
+      {/* Mobile Menu Drawer */}
       {mobileMenuOpen && (
-        <div className="md:hidden glass-nav border-b border-slate-800/80 px-6 py-6 mt-3 space-y-4 animate-in slide-in-from-top duration-300">
-          <ul className="space-y-3">
-            {navLinks.map((link) => (
-              <li key={link.name}>
-                <a
-                  href={link.href}
-                  onClick={() => setMobileMenuOpen(false)}
-                  className="block text-base font-medium text-slate-200 hover:text-sky-400 py-1"
-                >
-                  {link.name}
-                </a>
-              </li>
-            ))}
+        <div className="md:hidden glass-nav border-b border-slate-800 px-6 py-5 mt-2 space-y-3 shadow-2xl">
+          <ul className="space-y-2">
+            {navLinks.map((link) => {
+              const isActive = activeSection === link.id;
+              return (
+                <li key={link.name}>
+                  <a
+                    href={link.href}
+                    onClick={() => handleNavClick(link.id)}
+                    className={`block text-sm font-medium py-2 px-3 rounded-lg transition-colors ${
+                      isActive
+                        ? 'bg-blue-600/15 text-blue-400 border-l-2 border-blue-500'
+                        : 'text-slate-300 hover:bg-slate-800/60 hover:text-blue-400'
+                    }`}
+                  >
+                    {link.name}
+                  </a>
+                </li>
+              );
+            })}
           </ul>
-          <a
-            href="#contact"
-            onClick={() => setMobileMenuOpen(false)}
-            className="btn-neon text-center justify-center w-full mt-4"
-          >
-            <Send className="w-4 h-4" /> Let's Talk
-          </a>
+
+          <div className="pt-3 border-t border-slate-800/80">
+            <a
+              href="#contact"
+              onClick={() => setMobileMenuOpen(false)}
+              className="btn-electric text-center justify-center w-full py-2.5 text-xs"
+            >
+              Get In Touch <ArrowUpRight className="w-3.5 h-3.5" />
+            </a>
+          </div>
         </div>
       )}
     </nav>
   );
 }
+

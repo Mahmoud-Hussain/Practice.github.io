@@ -1,148 +1,128 @@
-import React, { useEffect } from 'react';
-import { UserCheck, Award, GraduationCap, Briefcase } from 'lucide-react';
+import React from 'react';
+import { Brain, Search, Code, CheckCircle, Lightbulb, Zap } from 'lucide-react';
+import { personalInfo } from '../data/portfolioData';
 
 export default function About() {
-  useEffect(() => {
-    // Initialize GitHub calendar widget if available
-    if (window.GitHubCalendar) {
-      try {
-        window.GitHubCalendar('.calendar', 'Mahmoud-Hussain', {
-          responsive: true,
-          tooltips: true,
-        });
-      } catch (err) {
-        console.log('GitHub Calendar error:', err);
-      }
+  const mentalModelSteps = [
+    {
+      step: "01",
+      title: "Deconstruct & Understand",
+      icon: Search,
+      description: "When encountering an unfamiliar domain or bug, I analyze the underlying mechanisms rather than guessing."
+    },
+    {
+      step: "02",
+      title: "Targeted Learning",
+      icon: Brain,
+      description: "I absorb documentation, underlying source code, and key primitives required to solve the problem."
+    },
+    {
+      step: "03",
+      title: "Build & Experiment",
+      icon: Code,
+      description: "I write functional, testable prototypes to validate solutions against real-world performance constraints."
+    },
+    {
+      step: "04",
+      title: "Refine & Modularize",
+      icon: CheckCircle,
+      description: "Clean up abstractions, optimize performance, and document the architecture for long-term maintainability."
     }
-  }, []);
+  ];
 
   return (
-    <section id="about" className="py-24 relative z-10">
-      <div className="max-w-7xl mx-auto px-6">
+    <section id="about" className="py-24 relative z-10 border-t border-slate-800/60">
+      <div className="max-w-7xl mx-auto px-6 space-y-12">
         
-        {/* Section Heading */}
-        <div className="text-center space-y-3 mb-16">
-          <h2 className="text-3xl md:text-5xl font-extrabold tracking-tight text-white">
-            About <span className="gradient-text">Me</span>
+        {/* Section Header */}
+        <div className="space-y-3">
+          <div className="section-tag">
+            <span>02 — ABOUT</span>
+          </div>
+          <h2 className="text-3xl md:text-5xl font-bold tracking-tight text-white">
+            How Does Mahmoud Think?
           </h2>
-          <p className="text-slate-400 text-base md:text-lg max-w-2xl mx-auto">
-            Discover my journey across software engineering, computer science, and creative visual design.
+          <p className="text-slate-400 text-base md:text-lg max-w-3xl">
+            My engineering mindset is rooted in curiosity, systematic problem breakdown, and continuous adaptation.
           </p>
         </div>
 
-        {/* Content Grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-stretch mb-16">
+        {/* Philosophy & Narrative Grid */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
           
-          {/* Main Story Card */}
-          <div className="lg:col-span-8 glass-card p-8 md:p-10 space-y-6 flex flex-col justify-between">
-            <div className="space-y-4">
-              <div className="flex items-center gap-3 text-sky-400 font-semibold text-lg">
-                <UserCheck className="w-6 h-6" />
-                <span>Passionate Developer &amp; Visual Designer</span>
-              </div>
-
-              <p className="text-slate-300 leading-relaxed text-base md:text-lg">
-                I’m <strong className="text-white">Mahmoud Hussain</strong>, a Computer Science &amp; Engineering student passionate about coding and creativity. Whether crafting seamless interfaces, designing stunning graphics, or building impactful software projects, I bring dedication, detail, and curiosity to every endeavor.
+          {/* Main Story Narrative */}
+          <div className="lg:col-span-7 space-y-6">
+            <div className="glass-card p-6 md:p-8 space-y-4">
+              <h3 className="text-xl font-bold text-white flex items-center gap-2">
+                <Lightbulb className="w-5 h-5 text-amber-400" />
+                The "Learn & Build" Engineering Mindset
+              </h3>
+              
+              <p className="text-slate-300 leading-relaxed text-sm md:text-base">
+                {personalInfo.bio[0]}
+              </p>
+              
+              <p className="text-slate-300 leading-relaxed text-sm md:text-base">
+                {personalInfo.bio[1]}
               </p>
 
-              <p className="text-slate-300 leading-relaxed text-base md:text-lg">
-                Currently working as a 2D graphics designer at{' '}
-                <a
-                  href="https://www.facebook.com/luminosoevents6"
-                  target="_blank"
-                  rel="noreferrer"
-                  className="text-sky-400 font-medium hover:underline inline-flex items-center gap-1"
-                >
-                  Luminoso Events <i className="fab fa-facebook-f text-xs"></i>
-                </a>{' '}
-                <a
-                  href="https://www.instagram.com/luminosoevent/?hl=en"
-                  target="_blank"
-                  rel="noreferrer"
-                  className="text-pink-400 font-medium hover:underline"
-                >
-                  <i className="fab fa-instagram"></i>
-                </a>. I thrive at the intersection of design and technology, combining my skills in graphic design with solving real-world problems through code.
-              </p>
-            </div>
-
-            {/* Core Competencies badges */}
-            <div className="pt-6 border-t border-slate-800 grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
-              <div className="p-4 rounded-xl bg-slate-900/60 border border-slate-800/80 flex flex-col items-center justify-center">
-                <GraduationCap className="w-6 h-6 mb-2 text-sky-400" />
-                <span className="block text-sm font-semibold text-white">CSE Student</span>
-                <span className="block text-xs text-slate-400 mt-1">Engineering</span>
-              </div>
-
-              <div className="p-4 rounded-xl bg-slate-900/60 border border-slate-800/80 flex flex-col items-center justify-center">
-                <Briefcase className="w-6 h-6 mb-2 text-purple-400" />
-                <span className="block text-sm font-semibold text-white">2D Designer</span>
-                <span className="block text-xs text-slate-400 mt-1">Luminoso Events</span>
-              </div>
-
-              <div className="p-4 rounded-xl bg-slate-900/60 border border-slate-800/80 flex flex-col items-center justify-center">
-                <Award className="w-6 h-6 mb-2 text-pink-400" />
-                <span className="block text-sm font-semibold text-white">Creative Tech</span>
-                <span className="block text-xs text-slate-400 mt-1">3D &amp; Web</span>
-              </div>
-
-              <div className="p-4 rounded-xl bg-slate-900/60 border border-slate-800/80 flex flex-col items-center justify-center">
-                <UserCheck className="w-6 h-6 mb-2 text-amber-400" />
-                <span className="block text-sm font-semibold text-white">Problem Solver</span>
-                <span className="block text-xs text-slate-400 mt-1">Full Stack</span>
+              <div className="p-4 rounded-lg bg-blue-950/40 border border-blue-500/20 text-slate-200 text-sm space-y-2">
+                <div className="font-mono text-xs text-blue-400 font-semibold uppercase">
+                  Direct Engineering Ethos
+                </div>
+                <p className="italic">
+                  "I don't wait until I know everything to start building. I start with clear principles, learn what is required along the way, and take responsibility for delivering a working solution."
+                </p>
               </div>
             </div>
           </div>
 
-          {/* Quick Info Card */}
-          <div className="lg:col-span-4 glass-card p-8 flex flex-col justify-between space-y-6">
-            <h3 className="text-xl font-bold text-white border-b border-slate-800 pb-4">
-              Quick Details
-            </h3>
+          {/* Philosophy Principles */}
+          <div className="lg:col-span-5 space-y-4">
+            <div className="text-sm font-mono text-slate-400 uppercase tracking-wider">
+              Core Principles
+            </div>
 
-            <ul className="space-y-4 text-sm text-slate-300">
-              <li className="flex justify-between border-b border-slate-800/60 pb-2">
-                <span className="text-slate-400">Location:</span>
-                <span className="font-semibold text-white">Bangladesh</span>
-              </li>
-              <li className="flex justify-between border-b border-slate-800/60 pb-2">
-                <span className="text-slate-400">Degree:</span>
-                <span className="font-semibold text-white">B.Sc in CSE</span>
-              </li>
-              <li className="flex justify-between border-b border-slate-800/60 pb-2">
-                <span className="text-slate-400">Primary Focus:</span>
-                <span className="font-semibold text-sky-400">Full-Stack &amp; Design</span>
-              </li>
-              <li className="flex justify-between border-b border-slate-800/60 pb-2">
-                <span className="text-slate-400">Graphics Role:</span>
-                <span className="font-semibold text-purple-400">Luminoso Events</span>
-              </li>
-              <li className="flex justify-between pb-2">
-                <span className="text-slate-400">Availability:</span>
-                <span className="font-semibold text-green-400">Open for Collaborations</span>
-              </li>
-            </ul>
-
-            <a href="#contact" className="btn-neon w-full text-center justify-center text-sm">
-              Get in Touch
-            </a>
+            <div className="space-y-3">
+              {personalInfo.philosophy.principles.map((p, idx) => (
+                <div key={idx} className="glass-card p-4 hover:border-blue-500/30 transition-colors">
+                  <div className="flex items-start gap-3">
+                    <div className="p-2 rounded bg-blue-600/10 text-blue-400 border border-blue-500/20 mt-0.5">
+                      <Zap className="w-4 h-4" />
+                    </div>
+                    <div>
+                      <h4 className="text-sm font-bold text-slate-100">{p.title}</h4>
+                      <p className="text-xs text-slate-400 mt-1 leading-normal">{p.description}</p>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
           </div>
 
         </div>
 
-        {/* GitHub Activity Section */}
-        <div className="glass-card p-8 md:p-10 space-y-6">
-          <div className="flex items-center justify-between">
-            <h3 className="text-2xl font-bold text-white flex items-center gap-3">
-              <i className="fab fa-github text-sky-400"></i>
-              GitHub <span className="gradient-text">Activity</span>
-            </h3>
-            <span className="text-xs font-mono text-slate-400">@Mahmoud-Hussain</span>
+        {/* Mental Model / Learning Loop */}
+        <div className="space-y-6 pt-6">
+          <div className="text-center space-y-2">
+            <h3 className="text-2xl font-bold text-white">Systematic Problem-Solving Loop</h3>
+            <p className="text-xs font-mono text-slate-400">HOW I APPROACH UNFAMILIAR CHALLENGES</p>
           </div>
 
-          <div className="calendar text-slate-300 overflow-x-auto min-h-[160px] flex items-center justify-center">
-            {/* GitHub Calendar Container */}
-            <p className="text-slate-400 text-sm">Loading GitHub contribution matrix...</p>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            {mentalModelSteps.map((item) => {
+              const IconComp = item.icon;
+              return (
+                <div key={item.step} className="glass-card p-6 relative group border-slate-800">
+                  <div className="flex items-center justify-between text-xs font-mono text-blue-400 mb-4">
+                    <span>STEP // {item.step}</span>
+                    <IconComp className="w-5 h-5 text-slate-400 group-hover:text-blue-400 transition-colors" />
+                  </div>
+                  <h4 className="text-lg font-bold text-slate-100 mb-2">{item.title}</h4>
+                  <p className="text-xs text-slate-400 leading-relaxed">{item.description}</p>
+                </div>
+              );
+            })}
           </div>
         </div>
 

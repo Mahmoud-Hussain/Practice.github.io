@@ -12,9 +12,9 @@ import * as THREE from 'three';
 function OBJCharacterModel({ mouse }) {
   const groupRef = useRef();
 
-  const objPath = '/3D model/cfa8a5355e960494d19b7122e1b137fd.obj';
-  const mtlPath = '/3D model/material.mtl';
-  const texturePath = '/3D model/texture_20250901.png';
+  const objPath = '/3d-model/cfa8a5355e960494d19b7122e1b137fd.obj';
+  const mtlPath = '/3d-model/material.mtl';
+  const texturePath = '/3d-model/texture_20250901.png';
 
   // Load MTL material file
   const materials = useLoader(MTLLoader, mtlPath);
